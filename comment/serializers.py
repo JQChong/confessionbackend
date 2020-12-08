@@ -9,4 +9,4 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
     def to_representation(self, instance):
         self.fields['post'] = PostSerializer(read_only=True)
-        return super.to_representation(instance)
+        return super().to_representation(instance)
