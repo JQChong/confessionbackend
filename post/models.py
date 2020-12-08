@@ -9,3 +9,4 @@ class Post(models.Model):
     text = models.TextField(blank=False, null=False, default='')
     likes = models.PositiveIntegerField(default=0)
     time_created = models.DateTimeField(auto_now=True)
+    approved = models.BooleanField(default=False)

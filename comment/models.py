@@ -10,3 +10,4 @@ class Comment(models.Model):
     likes = models.PositiveIntegerField(default=0)
     time_created = models.DateTimeField(auto_now=True)
     poster = models.CharField(max_length=256, blank=False, null=False, default='Anonymous')
+    approved = models.BooleanField(default=False)
