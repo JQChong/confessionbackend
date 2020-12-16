@@ -1,5 +1,7 @@
 from django.db import models
 
+from category.models import Category
+
 # Create your models here.
 class Post(models.Model):
     """
@@ -10,3 +12,5 @@ class Post(models.Model):
     likes = models.PositiveIntegerField(default=0)
     time_created = models.DateTimeField(auto_now=True)
     approved = models.BooleanField(default=False)
+
+    category = models.ManyToManyField(Category, blank=True)
