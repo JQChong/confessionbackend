@@ -3,8 +3,12 @@ from rest_framework import generics
 from comment.models import Comment
 from comment.serializers import CommentSerializer
 
+from confessionbackend.paginationsettings import PaginationSettings
+
 class CommentList(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
+    pagination_class = PaginationSettings
+
     def get_queryset(self):
         approved = self.request.GET.get('approved', None)
         post_id = self.request.GET.get('post_id', None)

@@ -3,8 +3,12 @@ from rest_framework import generics
 from post.models import Post
 from post.serializers import PostSerializer
 
+from confessionbackend.paginationsettings import PaginationSettings
+
 class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
+    pagination_class = PaginationSettings
+
     def get_queryset(self):
         approved = self.request.GET.get('approved', None)
         category = self.request.GET.get('category', None)
