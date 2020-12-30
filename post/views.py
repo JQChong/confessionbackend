@@ -12,11 +12,14 @@ class PostList(generics.ListCreateAPIView):
     def get_queryset(self):
         approved = self.request.GET.get('approved', None)
         category = self.request.GET.get('category', None)
+        search = self.request.GET.get('search', None)
         current_query_set = Post.objects.all().order_by('-time_created', '-likes')
         if approved is not None:
             current_query_set = current_query_set.filter(approved=approved)
         if category is not None:
             current_query_set = current_query_set.filter(category__in=[category])
+        if search is not None:
+            current_query_set = current_query_set.filter(text__icontains=search)
         return current_query_set
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
