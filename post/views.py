@@ -14,13 +14,21 @@ class PostList(generics.ListCreateAPIView):
         approved = self.request.GET.get('approved', None)
         category = self.request.GET.get('category', None)
         search = self.request.GET.get('search', None)
-        current_queryset = Post.objects.all().order_by('-time_created', '-likes')
+        order_by = self.request.GET.get('order_by', None)
+        current_queryset = Post.objects.all()
         if approved is not None:
             current_queryset = current_queryset.filter(approved=approved)
         if category is not None:
             current_queryset = current_queryset.filter(category__in=[category])
         if search is not None:
             current_queryset = current_queryset.filter(text__icontains=search)
+        if order_by:
+            if order_by == 'popular':
+                current_queryset = current_queryset.order_by('-time_created', '-likes')
+            else:
+                current_queryset = current_queryset.order_by(order_by)
+        else:
+            current_queryset = current_queryset.order_by('-id') # sort by latest by default
         return current_queryset
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
