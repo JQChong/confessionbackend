@@ -18,12 +18,13 @@ class CommentList(generics.ListCreateAPIView):
             current_query_set = current_query_set.filter(approved=approved)
         if post_id is not None:
             current_query_set = current_query_set.filter(post_id=post_id)
+        """
         if ordering is not None:
             test_obj = current_query_set.first()
             """
-            in the event that someone decided to meddle around with the query parameters,
-            the list will be sorted by the default way, i.e. by likes and time created
-            in descending order.
+            # in the event that someone decided to meddle around with the query parameters,
+            # the list will be sorted by the default way, i.e. by likes and time created
+            # in descending order.
             """
             def check_all_attr(obj, arr):
                 for attr in arr:
@@ -36,6 +37,7 @@ class CommentList(generics.ListCreateAPIView):
                 current_query_set = current_query_set.order_by('-likes', '-time_created')
         else:
             current_query_set = current_query_set.order_by('-likes', '-time_created')
+        """
         return current_query_set
 
 
