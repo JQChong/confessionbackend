@@ -4,9 +4,9 @@ STATIC_ROOT = 'static'
 
 DEBUG = False
 
-# SECRET_KEY = os.getenv('CONFESSION_SECRET_KEY')
+SECRET_KEY = os.getenv('CONFESSION_SECRET_KEY')
 
-# ALLOWED_HOSTS += [os.getenv('CONFESSION_DOMAIN')]
+ALLOWED_HOSTS += [os.getenv('CONFESSION_DOMAIN')]
 
 DATABASES = {
     'default': {
@@ -20,10 +20,11 @@ DATABASES = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = False
-"""
 CORS_ORIGIN_WHITELIST = (
     os.getenv('CONFESSION_FRONT_END_DOMAIN')
 )
-"""
+
+
+FRONT_END_DOMAIN = os.getenv('CONFESSION_FRONT_END_DOMAIN')
 
 # run pip insall mysqlclient in the virtual environment while setting up
