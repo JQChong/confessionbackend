@@ -1,3 +1,5 @@
+import random
+
 from rest_framework import generics
 
 from comment.models import Comment
@@ -37,7 +39,14 @@ class CommentList(generics.ListCreateAPIView):
         else:
             current_query_set = current_query_set.order_by('-likes', '-time_created')
         return current_query_set
-
+    
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        data = self.request.data
+        if data['poster'] == 'Anonymous':
+            number = str(random.randint(1000, 9999))
+            anonId = number[:2] + str(instance.id) + number[2:]
+            serializer.save(poster='Anonymous#' + anonId)
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
