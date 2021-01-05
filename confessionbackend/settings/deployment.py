@@ -11,8 +11,8 @@ ALLOWED_HOSTS += [os.getenv('CONFESSION_DOMAIN')]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'confessiondb'
-        'USER': 'nusmuvpr'
+        'NAME': 'nusmuvpr_confessiondb'
+        'USER': 'nusmuvpr_superuser'
         'PASSWORD': 'msl2020NUS!'
         'HOST': 'localhost',
         'PORT': '5432'
