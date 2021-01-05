@@ -28,3 +28,6 @@ CORS_ORIGIN_WHITELIST = (
 FRONT_END_DOMAIN = os.getenv('CONFESSION_FRONT_END_DOMAIN')
 
 # run pip insall mysqlclient in the virtual environment while setting up
+
+pymysql.version_info = (1, 4, 2, "final", 0)
+pymysql.install_as_MySQLdb()
