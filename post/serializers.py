@@ -4,6 +4,11 @@ from post.models import Post
 from category.serializers import CategorySerializer
 
 class PostSerializer(serializers.ModelSerializer):
+    num_comments = serializers.SerializerMethodField('get_num_comments')
+
+    def get_num_comments(self, post):
+        return post.comments.filter(approved=True).count()
+
     class Meta:
         model = Post
         fields = '__all__'
