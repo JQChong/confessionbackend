@@ -1,11 +1,14 @@
 import random
 
-from rest_framework import generics
+from rest_framework import generics, status
 
 from comment.models import Comment
 from comment.serializers import CommentSerializer
+from rest_framework.response import Response
 
 from confessionbackend.paginationsettings import PaginationSettings
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class CommentList(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
@@ -40,6 +43,11 @@ class CommentList(generics.ListCreateAPIView):
             current_query_set = current_query_set.order_by('-likes', '-time_created')
         return current_query_set
     
+    def create(self, request, *args, **kwargs):
+        if self.request.data['approved']:
+            return Response({'message': 'Object should not contain approved flag.'}, status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
+    
     def perform_create(self, serializer):
         instance = serializer.save()
         data = self.request.data
@@ -51,3 +59,16 @@ class CommentList(generics.ListCreateAPIView):
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def update(self, request, *args, **kwargs):
+        if self.request.method == 'PUT':
+            return Response({'message': "METHOD NOT ALLOWED"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        if self.request.method == 'PATCH':
+            if self.request.data['approved'] and not JWTAuthentication().authenticate(self.request):
+                return Response({'message': 'ILLEGAL OPERATION'}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not JWTAuthentication().authenticate(self.request):
+            return Response({'message': 'ILLEGAL OPERATION'}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
