@@ -44,7 +44,7 @@ class CommentList(generics.ListCreateAPIView):
         return current_query_set
     
     def create(self, request, *args, **kwargs):
-        if self.request.data['approved']:
+        if 'approved' in self.request.data:
             return Response({'message': 'Object should not contain approved flag.'}, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
     
@@ -64,7 +64,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method == 'PUT':
             return Response({'message': "METHOD NOT ALLOWED"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         if self.request.method == 'PATCH':
-            if self.request.data['approved'] and not JWTAuthentication().authenticate(self.request):
+            if 'approved' in self.request.data and not JWTAuthentication().authenticate(self.request):
                 return Response({'message': 'ILLEGAL OPERATION'}, status=status.HTTP_401_UNAUTHORIZED)
         return super().update(request, *args, **kwargs)
 
