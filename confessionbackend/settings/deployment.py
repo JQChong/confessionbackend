@@ -10,12 +10,11 @@ ALLOWED_HOSTS += [os.getenv('CONFESSION_DOMAIN')]
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nusmuvpr_confessiondb'
-        'USER': 'nusmuvpr_superuser'
-        'PASSWORD': 'msl2020NUS!'
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': '/cloudsql/white-cedar-305506:asia-southeast1:confessiondb',
+        'USER': 'postgres',
+        'PASSWORD': 'sooperuser',
+        'NAME': 'confessiondb'
     }
 }
 
